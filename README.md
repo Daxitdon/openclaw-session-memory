@@ -88,12 +88,22 @@ already writes to disk.
 ## Install (one-shot)
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/Daxitdon/openclaw-session-memory/main/bootstrap.sh | bash
+```
+
+This clones to `~/.openclaw/openclaw-session-memory` and runs the installer.
+Pass flags through with `bash -s --`, e.g. `... | bash -s -- --no-configure`.
+
+Prefer to read the script before running it (recommended for any `curl | bash`)?
+Clone and run it yourself instead:
+
+```bash
 git clone https://github.com/Daxitdon/openclaw-session-memory.git
 cd openclaw-session-memory
 ./install.sh
 ```
 
-That's it. By default this does the whole setup:
+Either way, by default this does the whole setup:
 1. `npm install`
 2. backfill existing OCPlatform session JSONLs into the local SQLite DB
 3. install a systemd unit at `/etc/systemd/system/session-memory.service` (root) or `~/.config/systemd/user/...` (rootless)
