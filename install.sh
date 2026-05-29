@@ -4,6 +4,9 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$PROJECT_DIR"
 
+CONFIGURE=""
+for a in "$@"; do case "$a" in --configure|--yes|-y) CONFIGURE="--configure";; esac; done
+
 echo "==> installing npm deps"
 npm install --omit=dev
 
@@ -17,7 +20,12 @@ echo "==> installing systemd unit"
 PORT="${PORT:-13579}" HOST="${HOST:-127.0.0.1}" DB_PATH="$DB_PATH" SESSIONS_ROOT="$SESSIONS_ROOT" bash scripts/install-systemd.sh
 
 echo "==> installing OCPlatform plugin"
-bash scripts/install-plugin.sh
+bash scripts/install-plugin.sh $CONFIGURE
 
 echo
 echo "🎉 Done. Health: curl http://127.0.0.1:${PORT:-13579}/health"
+if [ -z "$CONFIGURE" ]; then
+  echo
+  echo "Plugin copied but NOT yet enabled in openclaw.json."
+  echo "Enable it one-shot with:  ./install.sh --configure   (or: node scripts/configure-openclaw.mjs)"
+fi

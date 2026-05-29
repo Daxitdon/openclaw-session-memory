@@ -90,7 +90,7 @@ already writes to disk.
 ```bash
 git clone https://github.com/Daxitdon/openclaw-session-memory.git
 cd openclaw-session-memory
-./install.sh
+./install.sh --configure
 ```
 
 This will:
@@ -98,9 +98,34 @@ This will:
 2. backfill existing OCPlatform session JSONLs into the local SQLite DB
 3. install a systemd unit at `/etc/systemd/system/session-memory.service` (root) or `~/.config/systemd/user/...` (rootless)
 4. install the OCPlatform plugin to `~/.openclaw/extensions/session-memory/`
-5. print the JSON snippet you need to add to `~/.openclaw/openclaw.json`
+5. **with `--configure`:** back up and merge the required config into `~/.openclaw/openclaw.json` (idempotent, preserves your other plugins)
 
-Then add the snippet, restart OCPlatform, and you're done.
+Then restart your OCPlatform gateway and you're done.
+
+> The plugin self-registers its tools via its manifest (`activation.onStartup` +
+> `contracts.tools`), so once it's enabled the tools appear without hand-listing
+> them. `--configure` just flips it on and points it at the local service.
+
+Leave off `--configure` if you'd rather wire the config yourself — the installer
+then prints both the auto-configure command and the manual JSON snippet.
+
+### Install via your agent (zero manual editing)
+
+Paste this to your OCPlatform agent and let it do the whole setup:
+
+```text
+Install openclaw-session-memory for me.
+
+1. git clone https://github.com/Daxitdon/openclaw-session-memory.git && cd openclaw-session-memory
+2. Run ./install.sh --configure
+3. Confirm the service is healthy: curl http://127.0.0.1:13579/health
+4. Restart the OCPlatform gateway so the new tools (session_search, session_recall,
+   session_bookmark_save, session_relationship_save) load.
+5. Verify the tools are available and report back.
+
+If my openclaw.json already sets a different memory provider, tell me before
+overriding plugins.slots.memory.
+```
 
 ### Manual install
 
@@ -109,7 +134,14 @@ npm install
 SESSIONS_ROOT=~/.openclaw/agents DB_PATH=~/.openclaw/state/session-memory.db \
   node scripts/backfill.mjs
 bash scripts/install-systemd.sh
-bash scripts/install-plugin.sh
+bash scripts/install-plugin.sh            # prints config snippet
+node scripts/configure-openclaw.mjs       # OR merge config automatically (with backup)
+```
+
+Preview the config merge without writing anything:
+
+```bash
+DRY_RUN=1 node scripts/configure-openclaw.mjs
 ```
 
 ## Environment variables

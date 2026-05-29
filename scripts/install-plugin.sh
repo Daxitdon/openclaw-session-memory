@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # install-plugin.sh — install OCPlatform plugin into ~/.openclaw/extensions/
+#   --configure   also merge config into ~/.openclaw/openclaw.json (with backup)
 set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DEST="${OPENCLAW_EXTENSIONS:-$HOME/.openclaw/extensions}/session-memory"
@@ -8,9 +9,24 @@ cp "$PROJECT_DIR/plugin/index.mjs" "$DEST/"
 cp "$PROJECT_DIR/plugin/openclaw.plugin.json" "$DEST/"
 cp "$PROJECT_DIR/plugin/package.json" "$DEST/"
 echo "✅ plugin installed at $DEST"
+
+if [ "${1:-}" = "--configure" ]; then
+  echo
+  echo "==> configuring ~/.openclaw/openclaw.json (backup will be created)"
+  node "$PROJECT_DIR/scripts/configure-openclaw.mjs"
+  exit 0
+fi
+
 echo
-echo "Next: edit ~/.openclaw/openclaw.json and add:"
-cat <<JSON
+echo "The plugin self-registers its tools via its manifest (activation.onStartup)."
+echo "To enable it, run ONE of:"
+echo
+echo "  A) Auto-configure (recommended):"
+echo "       node scripts/configure-openclaw.mjs       # backs up + merges your openclaw.json"
+echo "     or re-run install with:  bash scripts/install-plugin.sh --configure"
+echo
+echo "  B) Manual — add to ~/.openclaw/openclaw.json:"
+cat <<'JSON'
 
 "plugins": {
   "slots": { "memory": "session-memory" },
@@ -29,12 +45,10 @@ cat <<JSON
 },
 "tools": {
   "alsoAllow": [
-    "session_search",
-    "session_recall",
-    "session_bookmark_save",
-    "session_relationship_save"
+    "session_search", "session_recall",
+    "session_bookmark_save", "session_relationship_save"
   ]
 }
 JSON
 echo
-echo "Then: systemctl restart openclaw-gateway.service  # or your OCPlatform process"
+echo "Then restart your OCPlatform gateway."

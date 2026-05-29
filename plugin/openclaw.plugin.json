@@ -4,6 +4,9 @@
   "name": "session-memory",
   "description": "Full-text search and recall across local OCPlatform session JSONLs via the local session-memory HTTP service.",
   "version": "0.1.0",
+  "activation": {
+    "onStartup": true
+  },
   "contracts": {
     "tools": [
       "session_search",
@@ -16,20 +19,46 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "enabled": { "type": "boolean" },
-      "base_url": { "type": "string" },
-      "timeout_ms": { "type": "number" },
-      "inject_context": { "type": "boolean" },
-      "context_min_confidence": { "type": "number" },
-      "context_limit": { "type": "number" }
+      "enabled": {
+        "type": "boolean"
+      },
+      "base_url": {
+        "type": "string"
+      },
+      "timeout_ms": {
+        "type": "number"
+      },
+      "inject_context": {
+        "type": "boolean"
+      },
+      "context_min_confidence": {
+        "type": "number"
+      },
+      "context_limit": {
+        "type": "number"
+      }
     }
   },
   "uiHints": {
-    "enabled": { "label": "Enabled" },
-    "base_url": { "label": "Base URL", "help": "session-memory service base URL (default http://127.0.0.1:13579)" },
-    "timeout_ms": { "label": "Timeout (ms)" },
-    "inject_context": { "label": "Inject Context", "help": "When true, conservatively inject source-linked session-memory context before agent turns." },
-    "context_min_confidence": { "label": "Context Min Confidence" },
-    "context_limit": { "label": "Context Limit" }
+    "enabled": {
+      "label": "Enabled"
+    },
+    "base_url": {
+      "label": "Base URL",
+      "help": "session-memory service base URL (default http://127.0.0.1:13579)"
+    },
+    "timeout_ms": {
+      "label": "Timeout (ms)"
+    },
+    "inject_context": {
+      "label": "Inject Context",
+      "help": "When true, conservatively inject source-linked session-memory context before agent turns."
+    },
+    "context_min_confidence": {
+      "label": "Context Min Confidence"
+    },
+    "context_limit": {
+      "label": "Context Limit"
+    }
   }
 }
