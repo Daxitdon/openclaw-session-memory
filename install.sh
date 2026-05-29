@@ -4,8 +4,9 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$PROJECT_DIR"
 
-CONFIGURE=""
-for a in "$@"; do case "$a" in --configure|--yes|-y) CONFIGURE="--configure";; esac; done
+# Auto-configure openclaw.json by default; pass --no-configure to skip.
+CONFIGURE="--configure"
+for a in "$@"; do case "$a" in --no-configure|--skip-config) CONFIGURE="";; esac; done
 
 echo "==> installing npm deps"
 npm install --omit=dev
@@ -24,8 +25,10 @@ bash scripts/install-plugin.sh $CONFIGURE
 
 echo
 echo "🎉 Done. Health: curl http://127.0.0.1:${PORT:-13579}/health"
-if [ -z "$CONFIGURE" ]; then
+if [ -n "$CONFIGURE" ]; then
+  echo "Then restart your OCPlatform gateway to load the tools."
+else
   echo
-  echo "Plugin copied but NOT yet enabled in openclaw.json."
-  echo "Enable it one-shot with:  ./install.sh --configure   (or: node scripts/configure-openclaw.mjs)"
+  echo "Skipped openclaw.json edit (--no-configure)."
+  echo "Enable it later with:  node scripts/configure-openclaw.mjs   (backs up + merges)"
 fi

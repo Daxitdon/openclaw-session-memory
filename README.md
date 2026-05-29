@@ -90,24 +90,25 @@ already writes to disk.
 ```bash
 git clone https://github.com/Daxitdon/openclaw-session-memory.git
 cd openclaw-session-memory
-./install.sh --configure
+./install.sh
 ```
 
-This will:
+That's it. By default this does the whole setup:
 1. `npm install`
 2. backfill existing OCPlatform session JSONLs into the local SQLite DB
 3. install a systemd unit at `/etc/systemd/system/session-memory.service` (root) or `~/.config/systemd/user/...` (rootless)
 4. install the OCPlatform plugin to `~/.openclaw/extensions/session-memory/`
-5. **with `--configure`:** back up and merge the required config into `~/.openclaw/openclaw.json` (idempotent, preserves your other plugins)
+5. back up and merge the required config into `~/.openclaw/openclaw.json` (idempotent, preserves your other plugins)
 
 Then restart your OCPlatform gateway and you're done.
 
 > The plugin self-registers its tools via its manifest (`activation.onStartup` +
-> `contracts.tools`), so once it's enabled the tools appear without hand-listing
-> them. `--configure` just flips it on and points it at the local service.
+> `contracts.tools`), so the tools appear without hand-listing them. The config
+> step just enables it and points it at the local service.
 
-Leave off `--configure` if you'd rather wire the config yourself — the installer
-then prints both the auto-configure command and the manual JSON snippet.
+Want to wire the config yourself? Run `./install.sh --no-configure` — it does
+everything except touch `openclaw.json`, and prints the snippet + the
+auto-configure command so you can finish manually.
 
 ### Install via your agent (zero manual editing)
 
@@ -117,7 +118,7 @@ Paste this to your OCPlatform agent and let it do the whole setup:
 Install openclaw-session-memory for me.
 
 1. git clone https://github.com/Daxitdon/openclaw-session-memory.git && cd openclaw-session-memory
-2. Run ./install.sh --configure
+2. Run ./install.sh
 3. Confirm the service is healthy: curl http://127.0.0.1:13579/health
 4. Restart the OCPlatform gateway so the new tools (session_search, session_recall,
    session_bookmark_save, session_relationship_save) load.
