@@ -211,12 +211,13 @@ Use it before changing search ranking or context injection.
 
 ## Status
 
-Used in production daily by one user since 2026-05-25. Mature enough to be
-primary memory. Some rough edges:
+Early but functional — runs as a real service and is eval-gated. Known limits:
 
-- only tested against OCPlatform `2026.4.23`
-- the Telegram/group runtime didn't expose `ctx.sessionManager` reliably in 4.23 so source-linking falls back to "newest message in last 15 minutes" — acceptable but not perfect
-- only English text indexing; trigram FTS index helps with substrings/code
+- developed and tested against OCPlatform `2026.4.23`
+- on the Telegram/group runtime, `ctx.sessionManager` wasn't reliably exposed in 4.23, so source-linking falls back to "newest message in the last 15 minutes" — acceptable but not exact
+- English text indexing only; the trigram FTS index helps with substrings/code
+
+It's young software. Try it on a non-critical setup first, and please open issues.
 
 ## Roadmap
 
