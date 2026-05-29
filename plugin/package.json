@@ -1,0 +1,19 @@
+{
+  "name": "@local/session-memory",
+  "version": "0.1.0",
+  "description": "OCPlatform plugin exposing session_search / session_recall tools backed by the local session-memory HTTP service.",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "files": [
+    "index.mjs",
+    "openclaw.plugin.json",
+    "README.md"
+  ],
+  "openclaw": {
+    "plugin": "./openclaw.plugin.json",
+    "extensions": ["./index.mjs"]
+  }
+}

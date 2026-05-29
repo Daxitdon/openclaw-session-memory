@@ -1,0 +1,5 @@
+{"id":"ctx001","query":"what is the capital of France","shouldInject":false,"reason":"general knowledge, nothing to inject"}
+{"id":"ctx002","query":"tell me a joke","shouldInject":false,"reason":"chit-chat, no memory needed"}
+{"id":"ctx003","query":"what did we decide about the database schema","shouldInject":true,"mustContain":[],"reason":"specific project recall should inject if a matching bookmark exists"}
+{"id":"ctx004","query":"brainstorm names for a new product","shouldInject":false,"reason":"open-ended creative, no specific recall"}
+{"id":"ctx005","query":"remind me of the deployment approval rule","shouldInject":true,"mustContain":[],"reason":"specific rule recall should inject if present"}

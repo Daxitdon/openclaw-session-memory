@@ -1,0 +1,2 @@
+{"id":"h001","query":"systemd service local bind 127.0.0.1","type":"fact","source":"search","expected":{"topK":5,"content_any":["127.0.0.1","service"]}}
+{"id":"h002","query":"raw jsonl source of truth indexing","type":"architecture","source":"search","expected":{"topK":5,"content_any":["jsonl","raw"]}}

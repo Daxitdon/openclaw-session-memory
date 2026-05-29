@@ -1,0 +1,5 @@
+{"id":"q001","query":"session memory architecture FTS5","type":"architecture","source":"bookmarks","expected":{"topK":5,"content_any":["FTS5","SQLite"]}}
+{"id":"q002","query":"how does context injection gating work","type":"decision","source":"bookmarks","expected":{"topK":5,"content_any":["confidence","context"]}}
+{"id":"q003","query":"relationship ontology constrained types","type":"architecture","source":"search","expected":{"topK":10,"content_any":["PREFERS","USES","DEPENDS_ON"]}}
+{"id":"q004","query":"backup and diagnose scripts","type":"workflow","source":"search","expected":{"topK":10,"content_any":["backup","diagnose"]}}
+{"id":"q005","query":"eval harness golden heldout threshold","type":"workflow","source":"search","expected":{"topK":10,"content_any":["eval","heldout"]}}

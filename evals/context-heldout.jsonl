@@ -1,0 +1,2 @@
+{"id":"ch001","query":"what's 2+2","shouldInject":false}
+{"id":"ch002","query":"what did we conclude about the migration plan","shouldInject":true,"mustContain":[]}
